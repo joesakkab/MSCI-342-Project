@@ -14,6 +14,10 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.static(path.join(__dirname, "client/build")));
 
 
+app.get('/api/ping', (req, res) => {
+	res.send({ express: "pong" });
+});
+
 app.post('/api/loadUserSettings', (req, res) => {
 
 	let connection = mysql.createConnection(config);
