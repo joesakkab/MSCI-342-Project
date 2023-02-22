@@ -1,0 +1,81 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, 
+SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema krajesh
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema krajesh
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `krajesh` DEFAULT CHARACTER SET utf8mb4 
+COLLATE utf8mb4_0900_ai_ci ;
+USE `krajesh` ;
+
+-- -----------------------------------------------------
+-- Table `krajesh`.`Customer`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `krajesh`.`Customer` (
+  `cust_id` INT NOT NULL AUTO_INCREMENT,
+  `FirstName` VARCHAR(45) NOT NULL,
+  `LastName` VARCHAR(45) NOT NULL,
+  `Email` VARCHAR(45) NOT NULL,
+  `Password` VARCHAR(45) NOT NULL,
+  `PrimaryLocation` VARCHAR(45) NULL,
+  PRIMARY KEY (`cust_id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `krajesh`.`Service Provider`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `krajesh`.`Service Provider` (
+  `Service_ProviderID` INT NOT NULL AUTO_INCREMENT,
+  `FirstName` VARCHAR(45) NOT NULL,
+  `LastName` VARCHAR(45) NOT NULL,
+  `Email` VARCHAR(45) NOT NULL,
+  `Password` VARCHAR(45) NOT NULL,
+  `PrimaryLocation` VARCHAR(45) NOT NULL,
+  `Description` VARCHAR(500) NOT NULL,
+  `ServiceType` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`Service_ProviderID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `krajesh`.`Service Request`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `krajesh`.`Service Request` (
+  `Service_ReqID` INT NOT NULL,
+  `cust_id` INT NOT NULL,
+  `service_providerID` INT NOT NULL,
+  `Location` VARCHAR(45) NULL,
+  `Description` VARCHAR(45) NULL,
+  `Service Type` INT NULL,
+  PRIMARY KEY (`Service_ReqID`),
+  INDEX `cust_id_idx` (`cust_id` ASC) VISIBLE,
+  INDEX `Service_ProviderID_idx` (`service_providerID` ASC) VISIBLE,
+  CONSTRAINT `cust_id`
+    FOREIGN KEY (`cust_id`)
+    REFERENCES `krajesh`.`Customer` (`cust_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `Service_ProviderID`
+    FOREIGN KEY (`service_providerID`)
+    REFERENCES `krajesh`.`Service Provider` (`Service_ProviderID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
