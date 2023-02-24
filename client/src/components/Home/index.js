@@ -53,7 +53,7 @@ function Home() {
       </Typography>
       <div>
         <Typography variant="body1" className={classes.description}>
-          Welcome to BluCollar, the platform to find service providers in any service you can think of. Our HandyMan service provides you with skilled professionals to help you with any task around the house. From fixing leaky faucets to installing light fixtures, our handymen are equipped to handle any job. Schedule a handyman today and experience peace of mind knowing your home is in good hands.
+          Welcome to BluCollar, the platform to find service providers in any service you can think of
         </Typography>
       </div>
       <Paper className={classes.paper}>
