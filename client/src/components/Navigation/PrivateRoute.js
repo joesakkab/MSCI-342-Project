@@ -1,6 +1,6 @@
 import React from "react";
 import { Router, Switch, Route } from "react-router-dom";
-import Home from '../Home';
+import Search from '../Search';
 import history from './history';
 import Landing from '../Landing'
 import SignUpPage from "../SignUp";
@@ -15,7 +15,7 @@ export default function PrivateRoute({
     <Router history={history}>
       <Switch>
       <Route path="/" exact component={Landing} />
-      <Route path="/home" exact component={Home} />
+      <Route path="/search" exact component={Search} />
       <Route path="/signup" exact component={SignUp} />
       </Switch>
     </Router>

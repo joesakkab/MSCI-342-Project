@@ -3,7 +3,7 @@ import { Router, Switch, Route } from "react-router-dom";
 import SignInForm from '../SignIn';
 import SignUpPage from '../SignUp';
 import LandingPage from '../Landing';
-import HomePage from '../Home';
+import SearchPage from '../Search';
 import history from './history';
 
 export default function PrivateRoute({
@@ -19,7 +19,7 @@ export default function PrivateRoute({
           {...rest}
           render={props =>
             authenticated === true ? (
-              <HomePage {...props} {...rest} />
+              <SearchPage {...props} {...rest} />
             ) : (
               <LandingPage {...props} {...rest} />
             )
