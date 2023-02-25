@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SignUpPage() {
+function SignUp() {
   const classes = useStyles();
 
   return (
@@ -97,4 +97,4 @@ function SignUpPage() {
   );
 }
 
-export default SignUpPage;
+export default SignUp;
