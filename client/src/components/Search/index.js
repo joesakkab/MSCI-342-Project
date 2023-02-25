@@ -1,17 +1,22 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, Typography, Button } from '@material-ui/core';
+import { Paper, Typography, Button, TextField } from '@material-ui/core';
+import NavBar from '../NavigationBar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
-    backgroundColor: '#2196f3',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     fontFamily: 'DM Sans, sans-serif', // Set the font family to DM Sans
+  },
+  test: {
+    padding: theme.spacing(5),
+    // display: 'flex', 
+    // marginTop: theme.spacing(3), 
+    // borderRadius: 50
   },
   title: {
     marginBottom: theme.spacing(2),
@@ -44,36 +49,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Landing() {
-  const classes = useStyles();
 
+function Search() {
+  const classes = useStyles();
   return (
-    <div className={classes.root}>
-      <Typography variant="h2" component="h1" className={classes.title}>
-        Need a HandyMan?
-      </Typography>
-      <div>
-        <Typography variant="body1" className={classes.description}>
-          Welcome to the search page!
-        </Typography>
-      </div>
-      <Paper className={classes.paper}>
-        <Button variant="contained" className={classes.button}>
-          Sign Up
-        </Button>
-        <Button variant="contained" className={classes.button}>
-          Login
-        </Button>
-      </Paper>
-      
-      <Paper className={classes.paper}>
-        <Button variant='contained' className={classes.button}> 
-          Sign Up as a Service Provider
-        </Button>
-      </Paper>
+    <div>
+        <NavBar />
+        <div className={classes.test}>
+            <TextField  style={{ width:1000 }} placeholder="Search for a service ..." variant="outlined"  id="search"/>
+        </div>
       
     </div>
   );
 }
 
-export default Landing;
+export default Search;
