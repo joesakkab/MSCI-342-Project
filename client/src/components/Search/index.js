@@ -54,7 +54,7 @@ function Landing() {
       </Typography>
       <div>
         <Typography variant="body1" className={classes.description}>
-          Welcome to BluCollar, the platform to find service providers in any service you can think of!
+          Welcome to the search page!
         </Typography>
       </div>
       <Paper className={classes.paper}>

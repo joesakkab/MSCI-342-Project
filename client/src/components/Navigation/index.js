@@ -14,10 +14,10 @@ const NavigationAuth = () => (
       <Link to={ROUTES.LANDING}>Landing</Link>
     </li>
     <li>
-      <Link to={ROUTES.HOME}>Home</Link>
+      <Link to={ROUTES.SEARCH}>Search</Link>
     </li>
     <li>
-      <Link to={ROUTES.ACCOUNT}>Account</Link>
+      <Link to={ROUTES.PROFILE}>Profile</Link>
     </li>
     <li>
       <SignOutButton />

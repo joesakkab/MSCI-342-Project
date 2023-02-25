@@ -5,7 +5,6 @@ import {
   Link,
 } from 'react-router-dom';
 
-import Home from '../Home';
 import Landing from '../Landing';
 import PrivateRoute from '../Navigation/PrivateRoute.js';
 
