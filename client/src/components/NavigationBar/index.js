@@ -6,6 +6,7 @@ import history from '../Navigation/history';
 // import Button from '@material-ui/core/Button';
 import { Box, Typography, Toolbar, AppBar, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import * as ROUTES from '../../constants/routes';
 
 
 
@@ -51,6 +52,20 @@ const useStyles = makeStyles((theme) => ({
     appBar: {
         backgroundColor: '#fff',
         color: '#fff',
+    },
+    mainText: {
+      color: '#486284', 
+      fontFamily: 'DM Sans, sans-serif',
+      my: 2,
+      display: 'block'
+
+    }, 
+    bluecollar: {
+      color: "#7B95B7",
+      variant: "h5" ,
+      component: "div" ,
+      flexGrow: 1,
+      fontFamily: 'DM Sans, sans-serif'
     }
   }));
 
@@ -58,23 +73,37 @@ const useStyles = makeStyles((theme) => ({
 
 const NavBar = () => {
     const classes = useStyles();
+
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" className={classes.appBar}>
                 <Toolbar sx={{ justifyContent: 'space-between' }}>
-                <Typography color='primary' variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    BluCollar
-                </Typography>
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-                    {pages.map((page) => (
-                    <Button
-                        key={page}
-                        sx={{ my: 2, color: 'white', display: 'block' }}
-                    >
-                        {page}
-                    </Button>
-                    ))}
-                </Box>
+                  <Typography className={classes.bluecollar}>
+                      BluCollar
+                  </Typography>
+                  <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+                      <Button
+                          className={classes.mainText}
+                          onClick = {() => history.push(ROUTES.SEARCH)}
+                        >
+                          Search                        
+                        </Button>
+
+                        <Button
+                          className={classes.mainText}
+                          onClick = {() => history.push(ROUTES.PROFILE)}
+                        >
+                          Profile
+                        </Button>
+
+                        <Button
+                          className={classes.mainText}
+                          onClick = {() => history.push(ROUTES.LANDING)}
+                        >
+                          Sign Out
+                        </Button>
+
+                  </Box>
                 </Toolbar>
             </AppBar>
         </Box>

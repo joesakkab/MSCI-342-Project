@@ -3,8 +3,9 @@ import { Router, Switch, Route } from "react-router-dom";
 import Search from '../Search';
 import history from './history';
 import Landing from '../Landing'
-import SignUpPage from "../SignUp";
+import Profile from "../Profile";
 import SignUp from "../SignUp";
+import * as ROUTES from '../../constants/routes';
 
 export default function PrivateRoute({
   //authenticated,
@@ -14,9 +15,10 @@ export default function PrivateRoute({
 
     <Router history={history}>
       <Switch>
-      <Route path="/" exact component={Landing} />
-      <Route path="/search" exact component={Search} />
-      <Route path="/signup" exact component={SignUp} />
+      <Route path={ROUTES.LANDING} exact component={Landing} />
+      <Route path={ROUTES.PROFILE} exact component={Profile} />
+      <Route path={ROUTES.SEARCH} exact component={Search} />
+      <Route path={ROUTES.SIGN_UP} exact component={SignUp} />
       </Switch>
     </Router>
   );
