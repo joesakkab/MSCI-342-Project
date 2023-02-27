@@ -6,6 +6,7 @@ import NavBar from '../NavigationBar';
 import data from "./sample-data.json"
 import Rating from '@material-ui/lab/Rating'
 import PrivateRoute from '../Navigation/PrivateRoute';
+// import { appTheme } from '../../themes';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,8 +53,11 @@ const useStyles = makeStyles((theme) => ({
     color: '#fff', // Set the button text color to white
   },
   listing: {
-    padding: theme.spacing(1)
-  }
+    padding: theme.spacing(1),
+  },
+  card: {
+    color: theme.palette.primary.main
+  } 
 }));
 
 
@@ -72,9 +76,9 @@ function Search() {
             {data.map((obj) => (
                 <div className={classes.listing}>
                     <Card style={{width: 1000}}>
-                        <CardActionArea>
+                        <CardActionArea href={'/profiles/' + obj.id}>
                             <CardContent>
-                                <Typography id="title" variant="h4">
+                                <Typography id="title" variant="h4" className={classes.test2}>
                                     {obj.first + " " + obj.last + " - " + obj['serviceType']}
                                 </Typography>
                                 <Typography id="description">
