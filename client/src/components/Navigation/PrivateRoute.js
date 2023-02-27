@@ -15,10 +15,10 @@ export default function PrivateRoute({
 
     <Router history={history}>
       <Switch>
-      <Route path={ROUTES.LANDING} exact component={Landing} />
-      <Route path={ROUTES.PROFILE} exact component={Profile} />
-      <Route path={ROUTES.SEARCH} exact component={Search} />
-      <Route path={ROUTES.SIGN_UP} exact component={SignUp} />
+        <Route path={ROUTES.LANDING} exact component={Landing} />
+        <Route path={ROUTES.PROFILE} exact component={Profile} />
+        <Route path={ROUTES.SEARCH} exact component={Search} />
+        <Route path={ROUTES.SIGN_UP} exact component={SignUp} />
       </Switch>
     </Router>
   );
