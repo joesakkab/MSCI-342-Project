@@ -9,6 +9,12 @@ import {
   FormControlLabel,
 } from "@material-ui/core";
 import validator from "validator";
+import history from '../Navigation/history';
+import * as ROUTES from '../../constants/routes';
+import { Router, Switch, Route } from "react-router-dom";
+
+
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,6 +62,8 @@ function SignUp() {
 
   const serverURL = "";
 
+
+
   const [showAdditionalInfo, setShowAdditionalInfo] = useState(false);
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [fName, setFName] = useState("");
@@ -85,7 +93,7 @@ function SignUp() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(Object)
+      body: JSON.stringify(userObject)
     });
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
@@ -117,8 +125,9 @@ function SignUp() {
         serviceDesc: additionalInfo,
         isServiceProvider: showAdditionalInfo
       }
-      console.log(submitUser)
-      addSignup(submitUser)
+      console.log(submitUser);
+      addSignup(submitUser);
+      history.push(ROUTES.SEARCH);
 
     } else if (password !== confPassword) {
       alert("Passwords do not match please re-enter!")
