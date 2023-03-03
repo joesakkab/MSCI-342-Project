@@ -29,7 +29,7 @@ describe('Search page view', () => {
 describe('Profile page view', () => {
   it('Profile can be viewed', () => {
     cy.visit('/profile');
-    // TODO: Profile must contain a name, description, phone number, link to website, location served, reviews
+    cy.contains('Welcome to your profile page!')
   });
 });
 
@@ -106,13 +106,19 @@ describe('Listing Leads to Provider Profile', () => {
   });
 });
 
-// Signing up for account takes you to the search page
-describe('Sign Up Flow', () => {
-  it('Signing Up Takes you to Search Page', () => {
+// Signing up for general account takes you to the search page
+describe('Sign Up General Account Flow', () => {
+  it('Signing Up for General Account', () => {
     cy.visit('http://localhost:3000/');
     cy.contains('Sign Up').click()
-    cy.get('input[id="email"]').type('test@email.com')
-    cy.get('input[id="email"]').should('have.value', 'test@email.com')
+    cy.get('input[id="first"]').type('John')
+    cy.get('input[id="first"]').should('have.value', 'John')
+    cy.get('input[id="last"]').type('Smith')
+    cy.get('input[id="last"]').should('have.value', 'Smith')
+    cy.get('input[id="location"]').type('London')
+    cy.get('input[id="location"]').should('have.value', 'London')
+    cy.get('input[id="email"]').type('test2@email.com')
+    cy.get('input[id="email"]').should('have.value', 'test2@email.com')
     cy.get('input[id="password"]').type('password123')
     cy.get('input[id="password"]').should('have.value', 'password123')
     cy.get('input[id="confirm_password"]').type('password123')
@@ -122,6 +128,31 @@ describe('Sign Up Flow', () => {
   });
 });
 
+// Signing up for service provider account takes you to the search page
+describe('Sign Up Provider Account Flow', () => {
+  it('Signing Up for Service Provider Account', () => {
+    cy.visit('http://localhost:3000/');
+    cy.contains('Sign Up').click()
+    cy.get('input[id="first"]').type('John')
+    cy.get('input[id="first"]').should('have.value', 'John')
+    cy.get('input[id="last"]').type('Smith')
+    cy.get('input[id="last"]').should('have.value', 'Smith')
+    cy.get('input[id="location"]').type('London')
+    cy.get('input[id="location"]').should('have.value', 'London')
+    cy.get('input[id="email"]').type('test2@email.com')
+    cy.get('input[id="email"]').should('have.value', 'test2@email.com')
+    cy.get('input[id="password"]').type('password123')
+    cy.get('input[id="password"]').should('have.value', 'password123')
+    cy.get('input[id="confirm_password"]').type('password123')
+    cy.get('input[id="confirm_password"]').should('have.value', 'password123')
+    cy.get('input[id="description"]').type('Hi, I am John, a welder in London, Ontario. Contact me at 555-555-5555!')
+    cy.get('input[id="description"]').should('have.value', 'Hi, I am John, a welder in London, Ontario. Contact me at 555-555-5555!')
+    cy.get('input[id="servicetype"]').type('Welder')
+    cy.get('input[id="servicetype"]').should('have.value', 'Welder')
+    cy.contains('Sign Up').click()
+    cy.url().should('equal', 'http://localhost:3000/search')
+  });
+});
 // Signing in takes you to the search page
 describe('Sign In Flow', () => {
   it('Signing In Takes you to Search Page', () => {
