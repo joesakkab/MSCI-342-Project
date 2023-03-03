@@ -106,19 +106,6 @@ function SignUp() {
   };
 
   const handleSubmit = () => {
-    let submitUser = {
-      firstName: fName,
-      lastName: LName,
-      email: email,
-      password: password,
-      location: location,
-      serviceType: serviceType,
-      serviceDesc: additionalInfo,
-      isServiceProvider: showAdditionalInfo
-    }
-  }
-
-  const handleSubmit1 = () => {
     if(fName !== "" && LName !== "" && email !== "" && password !== "" && password === confPassword && location !== "") {
       let submitUser = {
         firstName: fName,
@@ -133,14 +120,12 @@ function SignUp() {
       console.log(submitUser)
       addSignup(submitUser)
 
-
     } else if (password !== confPassword) {
       alert("Passwords do not match please re-enter!")
     } else {
       alert("Please ensure that all fields are entered!")
     }
   }
-
 
   return (
     <div className={classes.root}>
@@ -266,7 +251,7 @@ function SignUp() {
             variant="contained"
             color="primary"
             className={classes.button}
-            onClick = {handleSubmit1}
+            onClick = {handleSubmit}
           >
             Sign Up
           </Button>
