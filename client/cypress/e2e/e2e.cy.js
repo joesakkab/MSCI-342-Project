@@ -4,10 +4,9 @@ describe('Landing page view', () => {
     cy.visit('/');
     // landing page should contain the text BluCollar
     cy.contains('BluCollar');
-    // search page should contain three buttons, Login, Sign Up, and Sign Up as a Service Provider
+    // search page should contain two buttons: Login and Sign Up
     cy.contains('button', 'Login');
     cy.contains('button', 'Sign Up');
-    cy.contains('button', 'Sign Up as a Service Provider');
   });
 });
 
@@ -104,7 +103,37 @@ describe('Sign Out from Profile', () => {
 describe('Listing Leads to Provider Profile', () => {
   it('Clicking Listing Goes to Profile', () => {
     cy.visit('/search');
-    cy.contains('Ammar').click()
-    cy.url().should('contain', '/profile/')
+    cy.contains('Ammar Siddiqui').click()
+    cy.url().should('contain', '/profile/1')
+  });
+});
+
+// Signing up for account takes you to the search page
+describe('Sign Up Flow', () => {
+  it('Signing Up Takes you to Search Page', () => {
+    cy.visit('/');
+    cy.contains('Sign Up').click()
+    cy.contains('Email').type('test@email.com')
+    cy.get('email').should('have.value', 'test@email.com')
+    cy.contains('Password').type('password123')
+    cy.get('password').should('have.value', 'password123')
+    cy.contains('Confirm Password').type('password123')
+    cy.get('confirm_password').should('have.value', 'password123')
+    cy.contains('Sign Up').click()
+    cy.url().should('equal', '/search')
+  });
+});
+
+// Signing in takes you to the search page
+describe('Sign In Flow', () => {
+  it('Signing In Takes you to Search Page', () => {
+    cy.visit('/');
+    cy.contains('Sign In').click()
+    cy.contains('Email').type('test@email.com')
+    cy.get('email').should('have.value', 'test@email.com')
+    cy.contains('Password').type('password123')
+    cy.get('password').should('have.value', 'password123')
+    cy.contains('Sign In').click()
+    cy.url().should('equal', '/search')
   });
 });
