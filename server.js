@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 app.use(express.static(path.join(__dirname, "client/build")));
 
-// Auth middleware for JWT authenticated endpoints
+// Auth middleware for JWT authenticated 
 const auth = async (req, res, next) => {
 	const token = req.headers.authorization.split(" ")[1];
 	if (!token)
@@ -82,6 +82,38 @@ app.post("/signup", async (req, res) => {
 	connection.end();
 });
 
+app.post("/login", async (req, res) => {
+	let connection = mysql.createConnection(config);
+
+	const email = req.body.email;
+	const pwd = req.body.password;
+
+	const pwdHashed = await bcrypt.hash(pwd, 10);
+
+	connection.query(
+		`SELECT * FROM user WHERE email = ${email} AND password = ${pwdHashed}`, 
+		[], 
+		(error, results, fields) => {
+			if (error) {
+				return console.error(error.message);
+			}
+
+			if (results.length > 0) {
+				res.status(403).send({ error: "User login failed (email and pwd pair don't match)" });
+				return // User already exists
+			} else {
+				let string = JSON.stringify(results);
+				let obj = JSON.parse(string);
+				const token = jwt.sign({ obj }, process.env.JWT_KEY, {
+					expiresIn: 86400 // expires in 24 hours
+				});
+				console.log(token);
+				res.status(200).send({ token: token });
+			}
+		}
+	);
+	connection.end();
+});
 
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
