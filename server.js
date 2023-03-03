@@ -36,7 +36,7 @@ app.get('/api/ping', (req, res) => {
 	res.send({ express: "pong" });
 });
 
-app.post("/signup", async (req, res) => {
+app.post("/api/signup", async (req, res) => {
 	let connection = mysql.createConnection(config);
 
 	const email = req.body.email;
@@ -51,8 +51,8 @@ app.post("/signup", async (req, res) => {
 	const pwdHashed = await bcrypt.hash(pwd, 10);
 
 	connection.query(
-		`SELECT * FROM user WHERE email = ${email}`, 
-		[], 
+		'SELECT * FROM krajesh.`Service Provider` WHERE Email = "?"', 
+		[email], 
 		(error, results, fields) => {
 			if (error) {
 				return console.error(error.message);
@@ -63,16 +63,16 @@ app.post("/signup", async (req, res) => {
 				return // User already exists
 			} else {
 				// check if service providor then add into service providor table, else, add to user table
+				let sql, data;
 				if (isServiceProvider) {
-					let sql = `INSERT INTO ServiceProvider (email, password, first, last, location, serviceType, description) 
-					VALUES (?, ?, ?, ?, ?, ?, ?)`;
+					sql = 'INSERT INTO krajesh.`Service Provider` (Email, Password, FirstName, LastName, PrimaryLocation, Description, ServiceType) VALUES (`?`, `?`, `?`, `?`, `?`, `?`, `?`)';
 					console.log(sql);
-					let data = [email, pwdHashed, first, last, location, serviceType, description];
+					data = [email, pwdHashed, first, last, location, serviceType, description];
 					console.log(data);
 				} else {
-					let sql = `INSERT INTO user (email, password, first, last) VALUES (?, ?, ?, ?)`;
+					sql = `INSERT INTO Customer (email, password, first, last) VALUES (?, ?, ?, ?)`;
 					console.log(sql);
-					let data = [email, pwdHashed, first, last, location, serviceType, description];
+					data = [email, pwdHashed, first, last];
 					console.log(data);
 				}
 				
@@ -90,6 +90,7 @@ app.post("/signup", async (req, res) => {
 						res.status(200).send({ express: string });
 					}
 				);
+				connection.end();
 			}
 		}
 	);
@@ -156,7 +157,7 @@ app.post('/api/getprofile', (req, res) => {
 
 	let id = req.body.id;
 
-	let sql = `SELECT * FROM ServiceProvider WHERE Service ProviderID = '?'`;
+	let sql = "SELECT * FROM `Service Provider` WHERE Service ProviderID = '?'";
 	console.log(sql);
 	let data = [id];
 	console.log(data);
