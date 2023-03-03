@@ -54,9 +54,9 @@ const useStyles = makeStyles((theme) => ({
 function SignUp() {
   const classes = useStyles();
 
+  const serverURL = "";
+
   const [showAdditionalInfo, setShowAdditionalInfo] = useState(false);
-  const [passwordMatch, setPasswordMatch] = useState();
-  const [validEmail, setValidEmail] = useState();
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [fName, setFName] = useState("");
   const [LName, setLName] = useState("");
@@ -65,6 +65,33 @@ function SignUp() {
   const [confPassword, setConfPassword] = useState("");
   const [location, setLocation] = useState("");
   const [serviceType, setServiceType] = useState("");
+
+  const addSignup = (submitUser) => {
+    console.log(submitUser);
+    callApiAddSignup(submitUser).then(res => {
+      console.log("callApiAddReview returned: ", res)
+      var parsed = JSON.parse(res.express);
+      console.log("callApiAddReview parsed: ", parsed);
+    })
+  }
+
+  const callApiAddSignup= async (userObject) => {
+    const url = serverURL + "/api/signup";
+    console.log(url);
+    console.log(JSON.stringify(userObject))
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(Object)
+    });
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    console.log(" success : ", body);
+    return body;
+  }
 
   const handleCheckboxChange = (event) => {
     setShowAdditionalInfo(event.target.checked);
@@ -85,14 +112,35 @@ function SignUp() {
       email: email,
       password: password,
       location: location,
-      serviceType: serviceType, 
-      description: additionalInfo, 
-      serviceProvider: showAdditionalInfo
+      serviceType: serviceType,
+      serviceDesc: additionalInfo,
+      isServiceProvider: showAdditionalInfo
     }
-
-    console.log(submitUser);
-
   }
+
+  const handleSubmit1 = () => {
+    if(fName !== "" && LName !== "" && email !== "" && password !== "" && password === confPassword && location !== "") {
+      let submitUser = {
+        firstName: fName,
+        lastName: LName,
+        email: email,
+        password: password,
+        location: location,
+        serviceType: serviceType,
+        serviceDesc: additionalInfo,
+        isServiceProvider: showAdditionalInfo
+      }
+      console.log(submitUser)
+      addSignup(submitUser)
+
+
+    } else if (password !== confPassword) {
+      alert("Passwords do not match please re-enter!")
+    } else {
+      alert("Please ensure that all fields are entered!")
+    }
+  }
+
 
   return (
     <div className={classes.root}>
@@ -144,6 +192,7 @@ function SignUp() {
             required
             fullWidth
             autoFocus
+            id='email'
             value={email}
             onChange={(email) => setEmail(email.target.value)}
             inputProps={{ maxLength: 30 }}
@@ -155,6 +204,7 @@ function SignUp() {
             type="password"
             required
             fullWidth
+            id='password'
             value={password}
             onChange={(password) => setPassword(password.target.value)}
             inputProps={{ maxLength: 30 }}
@@ -166,6 +216,7 @@ function SignUp() {
             type="password"
             required
             fullWidth
+            id='confirm_password'
             value={confPassword}
             onChange={(confPassword) =>
               setConfPassword(confPassword.target.value)
@@ -186,18 +237,6 @@ function SignUp() {
           {showAdditionalInfo && (
             <Fragment>
               <TextField
-                label="Description"
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                autoFocus
-                value={additionalInfo}
-                onChange={handleAdditionalInfoChange}
-                multiline
-                rows={4}
-                inputProps={{ maxLength: 500 }}
-              />
-              <TextField
                 label="Your Service Type"
                 variant="outlined"
                 margin="normal"
@@ -209,13 +248,25 @@ function SignUp() {
                 }
                 inputProps={{ maxLength: 30 }}
               />
+              <TextField
+                label="About yourself and Contact Info"
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                autoFocus
+                value={additionalInfo}
+                onChange={handleAdditionalInfoChange}
+                multiline
+                minRows={4}
+                inputProps={{ maxLength: 500 }}
+              />
             </Fragment>
           )}
           <Button
             variant="contained"
             color="primary"
             className={classes.button}
-            onClick = {handleSubmit}
+            onClick = {handleSubmit1}
           >
             Sign Up
           </Button>
