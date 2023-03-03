@@ -40,7 +40,7 @@ service provider clicks "Profile" on the navigation bar, it will take them to th
 ## Installation Requirements
 
 1. Clone this repository to your local machine (either by downloading a ZIP or cloning using command line (git)
-2. Ensure that [npm](https://www.npmjs.com/package/npm) is installed on your machine. Note that you will need (Node.js)[https://nodejs.org/en/download/] installed to be able to install npm
+2. Ensure that [npm](https://www.npmjs.com/package/npm) is installed on your machine. Note that you will need [Node.js](https://nodejs.org/en/download/) installed to be able to install npm
 3. Open your command prompt/terminal. Change directories to MSCI-342-Project using 'cd MSCI-342-Project'
 4. Run 'npm install --legacy-peer-deps'
 5. Run 'cd client' to change to the client directory
