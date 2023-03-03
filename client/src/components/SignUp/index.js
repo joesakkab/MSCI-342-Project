@@ -163,6 +163,7 @@ function SignUp() {
             required
             fullWidth
             autoFocus
+            id='email'
             value={email}
             onChange={(email) => setEmail(email.target.value)}
             inputProps={{ maxLength: 30 }}
@@ -174,6 +175,7 @@ function SignUp() {
             type="password"
             required
             fullWidth
+            id='password'
             value={password}
             onChange={(password) => setPassword(password.target.value)}
             inputProps={{ maxLength: 30 }}
@@ -185,6 +187,7 @@ function SignUp() {
             type="password"
             required
             fullWidth
+            id='confirm_password'
             value={confPassword}
             onChange={(confPassword) =>
               setConfPassword(confPassword.target.value)
