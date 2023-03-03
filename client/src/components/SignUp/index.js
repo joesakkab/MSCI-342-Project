@@ -67,6 +67,7 @@ function SignUp() {
             required
             fullWidth
             autoFocus
+            id='email'
           />
           <TextField
             label="Password"
@@ -75,6 +76,7 @@ function SignUp() {
             type="password"
             required
             fullWidth
+            id='password'
           />
           <TextField
             label="Confirm Password"
@@ -83,6 +85,7 @@ function SignUp() {
             type="password"
             required
             fullWidth
+            id='confirm_password'
           />
           <Button
             variant="contained"
