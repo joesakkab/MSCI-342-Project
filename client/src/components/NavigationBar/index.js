@@ -91,7 +91,7 @@ const NavBar = () => {
 
                         <Button
                           className={classes.mainText}
-                          onClick = {() => history.push(ROUTES.PROFILE)}
+                          onClick = {() => history.push(ROUTES.MYPROFILE)}
                         >
                           Profile
                         </Button>

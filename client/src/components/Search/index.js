@@ -6,6 +6,8 @@ import NavBar from '../NavigationBar';
 import data from "./sample-data.json"
 import Rating from '@material-ui/lab/Rating'
 import PrivateRoute from '../Navigation/PrivateRoute';
+import history from '../Navigation/history';
+import * as ROUTES from '../../constants/routes';
 // import { appTheme } from '../../themes';
 
 const useStyles = makeStyles((theme) => ({
@@ -60,10 +62,47 @@ const useStyles = makeStyles((theme) => ({
   } 
 }));
 
-
+const serverURL = ""
 
 function Search() {
-  const classes = useStyles();
+    // Declaring states
+    const classes = useStyles();
+    const [searchTerm, setSearchTerm] = React.useState('');
+
+
+    const callApiSearch = async (searchTerm) => {
+        const url = serverURL + '/search';
+        // console.log("After a good amount of deciding " + JSON.stringify(searchTerms));
+
+        let searchTermsString = JSON.stringify(searchTerm).replaceAll("undefined", "");
+
+        // console.log("AFTER THE REPLACEMENTTTT: " + searchTermsString)
+
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: searchTermsString,
+        });
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        return body;
+    }
+
+    const getData = () => {
+        callApiSearch()
+            .then(res => {
+                // console.log("callApiGetMovies returned: ", res)
+                var parsed = JSON.parse(res.express);
+                // console.log("callApiGetMovies parsed: ", parsed);
+                setSearchTerm(parsed);
+            })
+        }
+
+
+
+
   return (
     <div>
         <NavBar />
@@ -76,7 +115,7 @@ function Search() {
             {data.map((obj) => (
                 <div className={classes.listing}>
                     <Card style={{width: 1000}}>
-                        <CardActionArea href={'/profiles/' + obj.id}>
+                        <CardActionArea onClick={() => history.push(ROUTES.PROFILE + "/" + obj.id)}>
                             <CardContent>
                                 <Typography id="title" variant="h4" className={classes.test2}>
                                     {obj.first + " " + obj.last + " - " + obj['serviceType']}
