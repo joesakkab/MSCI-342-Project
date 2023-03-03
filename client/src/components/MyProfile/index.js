@@ -6,7 +6,6 @@ import NavBar from '../NavigationBar';
 import data from "../Search/sample-data.json"
 import Rating from '@material-ui/lab/Rating'
 import PrivateRoute from '../Navigation/PrivateRoute';
-import { useParams } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,36 +60,33 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function Profile() {
+function MyProfile() {
   const classes = useStyles();
-//   const params = new URLSearchParams(window.location.pathname)
-  const params = useParams();
-  const given_id = params.id
-  // Get request body using API and id as prop. Set it equal to 'body' variable.
-  const obj = data.find(obj => obj.id === given_id)
-
+  const obj = data[0]
   return (
     <div>
         <NavBar />
 
             <div className={classes.listing}>
-
-                <Typography id="title" variant="h4" className={classes.test2}>
-                    {obj.first + " " + obj.last}
-                </Typography>
-                <Typography id="service-type" variant="h6" className={classes.test2}>
-                    Service Type: {obj["serviceType"]}
-                </Typography>
-                <Typography id="description">
-                    Description: {obj.description}
-                </Typography>
-                <Typography sx={{fontWeight: 'bold'}} id="location">
-                    Location: {obj["primaryLocation"]}
-                </Typography>
-                <Rating name="half-rating-read" defaultValue={obj.rating} precision={0.1} readOnly />
-                <Typography>
-                    Rating: {obj.rating + " / 5.0"}
-                </Typography>
+              <Typography id="greeting" variant="h2" className={classes.test}>
+                Welcome to your profile page!
+              </Typography>
+              <Typography id="title" variant="h4" className={classes.test2}>
+                {obj.first + " " + obj.last}
+              </Typography>
+              <Typography id="service-type" variant="h6" className={classes.test2}>
+                Service Type: {obj["serviceType"]}
+              </Typography>
+              <Typography id="description">
+                Description: {obj.description}
+              </Typography>
+              <Typography sx={{fontWeight: 'bold'}} id="location">
+                Location: {obj["primaryLocation"]}
+              </Typography>
+              <Rating name="half-rating-read" defaultValue={obj.rating} precision={0.1} readOnly />
+              <Typography>
+                Rating: {obj.rating + " / 5.0"}
+              </Typography>
             </div>
         
       
@@ -98,4 +94,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default MyProfile;
