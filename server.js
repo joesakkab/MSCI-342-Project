@@ -73,7 +73,7 @@ app.post("/signup", async (req, res) => {
 				
 						let string = JSON.stringify(results);
 						//let obj = JSON.parse(string);
-						res.send({ express: string });
+						res.status(200).send({ express: string });
 					}
 				);
 			}
