@@ -1,27 +1,11 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import Landing from './index';
+import Landing from '../Landing';
 
-it('changes the class when hovered', () => {
-  const component = renderer.create(
-    <Landing page="http://www.facebook.com">Facebook</Landing>,
-  );
-  let tree = component.toJSON();
-  expect(tree).toMatchSnapshot();
-
-  // manually trigger the callback
-  renderer.act(() => {
-    tree.props.onMouseEnter();
+describe('LandingPage', () => {
+  test('renders Sign In and Sign Up buttons', () => {
+    const component = renderer.create(<Landing />);
+    const tree = component.toJSON();
+    expect(tree).toMatchSnapshot();
   });
-  // re-rendering
-  tree = component.toJSON();
-  expect(tree).toMatchSnapshot();
-
-  // manually trigger the callback
-  renderer.act(() => {
-    tree.props.onMouseLeave();
-  });
-  // re-rendering
-  tree = component.toJSON();
-  expect(tree).toMatchSnapshot();
 });

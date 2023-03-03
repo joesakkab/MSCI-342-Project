@@ -51,6 +51,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const serverURL = "";
+
 function SignUp() {
   const classes = useStyles();
 
@@ -87,11 +89,39 @@ function SignUp() {
       location: location,
       serviceType: serviceType, 
       description: additionalInfo, 
-      serviceProvider: showAdditionalInfo
+      isServiceProvider: showAdditionalInfo
     }
-
     console.log(submitUser);
 
+  }
+
+  const callApiSignUp = async (signUp) => {
+    const url = serverURL + '/signup';
+    // console.log("After a good amount of deciding " + JSON.stringify(searchTerms));
+
+    let newUser = JSON.stringify(signUp).replaceAll("undefined", "");
+
+    // console.log("AFTER THE REPLACEMENTTTT: " + searchTermsString)
+
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: newUser,
+    });
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    return body;
+}
+
+const getData = () => {
+    callApiSignUp.then(res => {
+          // console.log("callApiGetMovies returned: ", res)
+          var parsed = JSON.parse(res.express);
+          // console.log("callApiGetMovies parsed: ", parsed);
+          // setSearchTerm(parsed);
+      })
   }
 
   return (
