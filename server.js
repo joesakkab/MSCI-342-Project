@@ -156,7 +156,6 @@ app.post('/api/getprofile', (req, res) => {
 	let connection = mysql.createConnection(config);
 
 	let id = req.body.id;
-
 	let sql = "SELECT * FROM `Service Provider` WHERE Service ProviderID = '?'";
 	console.log(sql);
 	let data = [id];
