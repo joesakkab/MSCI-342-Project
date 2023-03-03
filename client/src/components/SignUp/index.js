@@ -80,11 +80,34 @@ function SignUp() {
       email: email,
       password: password,
       location: location,
-      serviceType: serviceType
+      serviceType: serviceType,
+      serviceDesc: additionalInfo,
+      isServiceProvider: showAdditionalInfo
     }
-
-    console.log(submitUser);
   }
+
+  const handleSubmit1 = () => {
+    if(fName !== "" && LName !== "" && email !== "" && password !== "" && password === confPassword && location !== "") {
+      let submitUser = {
+        firstName: fName,
+        lastName: LName,
+        email: email,
+        password: password,
+        location: location,
+        serviceType: serviceType,
+        serviceDesc: additionalInfo,
+        isServiceProvider: showAdditionalInfo
+      }
+
+      console.log(submitUser)
+
+    } else if (password !== confPassword) {
+      alert("Passwords do not match please re-enter!")
+    } else {
+      alert("Please ensure that all fields are entered!")
+    }
+  }
+
 
   return (
     <div className={classes.root}>
@@ -178,22 +201,9 @@ function SignUp() {
           {showAdditionalInfo && (
             <Fragment>
               <TextField
-                label="Description"
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                autoFocus
-                value={additionalInfo}
-                onChange={handleAdditionalInfoChange}
-                multiline
-                rows={4}
-                inputProps={{ maxLength: 500 }}
-              />
-              <TextField
                 label="Your Service Type"
                 variant="outlined"
                 margin="normal"
-                type="password"
                 required
                 fullWidth
                 value={serviceType}
@@ -202,13 +212,25 @@ function SignUp() {
                 }
                 inputProps={{ maxLength: 30 }}
               />
+              <TextField
+                label="About yourself and Contact Info"
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                autoFocus
+                value={additionalInfo}
+                onChange={handleAdditionalInfoChange}
+                multiline
+                minRows={4}
+                inputProps={{ maxLength: 500 }}
+              />
             </Fragment>
           )}
           <Button
             variant="contained"
             color="primary"
             className={classes.button}
-            onClick = {handleSubmit}
+            onClick = {handleSubmit1}
           >
             Sign Up
           </Button>

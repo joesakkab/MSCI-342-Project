@@ -7,6 +7,7 @@ import MyProfile from "../MyProfile";
 import Profile from "../Profile"
 import SignUp from "../SignUp";
 import * as ROUTES from '../../constants/routes';
+import SignIn from "../SignIn";
 
 export default function PrivateRoute({
   //authenticated,
@@ -21,6 +22,7 @@ export default function PrivateRoute({
         <Route path={ROUTES.PROFILE + "/:id"} exact component={Profile}/>
         <Route path={ROUTES.SEARCH} exact component={Search} />
         <Route path={ROUTES.SIGN_UP} exact component={SignUp} />
+        <Route path={ROUTES.SIGN_IN} exact component={SignIn} />
       </Switch>
     </Router>
   );
