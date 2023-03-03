@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper, Typography, Button } from '@material-ui/core';
+import history from '../Navigation/history';
+import * as ROUTES from '../../constants/routes';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,17 +60,11 @@ function Landing() {
         </Typography>
       </div>
       <Paper className={classes.paper}>
-        <Button variant="contained" className={classes.button}>
+        <Button variant="contained" className={classes.button} onClick={() => history.push(ROUTES.SIGN_UP)}>
           Sign Up
         </Button>
-        <Button variant="contained" className={classes.button}>
+        <Button variant="contained" className={classes.button} onClick={() => history.push(ROUTES.SIGN_IN)}>
           Login
-        </Button>
-      </Paper>
-      
-      <Paper className={classes.paper}>
-        <Button variant='contained' className={classes.button}> 
-          Sign Up as a Service Provider
         </Button>
       </Paper>
       
