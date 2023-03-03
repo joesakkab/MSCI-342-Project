@@ -36,18 +36,23 @@ app.get('/api/ping', (req, res) => {
 	res.send({ express: "pong" });
 });
 
-app.post("/signup", async (req, res) => {
+app.post("/api/signup", async (req, res) => {
 	let connection = mysql.createConnection(config);
 
 	const email = req.body.email;
 	const pwd = req.body.password;
-	const first = req.body.first;
+	const first = req.body.firstName;
+	const last = req.body.lastName;
+	const location = req.body.location;
+	const serviceType = req.body.serviceType;
+	const description = req.body.description;
+	const isServiceProvider = req.body.isServiceProvider;
 
 	const pwdHashed = await bcrypt.hash(pwd, 10);
 
 	connection.query(
-		`SELECT * FROM user WHERE email = ${email}`, 
-		[], 
+		'SELECT * FROM krajesh.`Service Provider` WHERE Email LIKE "%?%"', 
+		[email], 
 		(error, results, fields) => {
 			if (error) {
 				return console.error(error.message);
@@ -56,27 +61,34 @@ app.post("/signup", async (req, res) => {
 			if (results.length > 0) {
 				res.status(403).send({ error: "User already exists!" });
 				return // User already exists
-			} else {
-				let sql = `INSERT INTO user (email, password, first, last) VALUES (?, ?, ?, ?)`;
-				console.log(sql);
-				let data = [email, pwdHashed, first, last];
-				console.log(data);
-
-				connection.query(
-
-					sql, 
-					data, 
-					(error, results, fields) => {
-						if (error) {
-							return console.error(error.message);
-						}
-				
-						let string = JSON.stringify(results);
-						//let obj = JSON.parse(string);
-						res.status(200).send({ express: string });
-					}
-				);
 			}
+		}
+	);
+	// check if service providor then add into service providor table, else, add to user table
+	let sql, data;
+	if (isServiceProvider) {
+		sql = 'INSERT INTO krajesh.`Service Provider` (Email, Password, FirstName, LastName, PrimaryLocation, Description, ServiceType) VALUES (?, ?, ?, ?, ?, ?, ?)';
+		console.log(sql);
+		data = [email, pwdHashed, first, last, location, serviceType, description];
+		console.log(data);
+	} else {
+		sql = 'INSERT INTO krajesh.`Customer` (Email, Password, FirstName, LastName, PrimaryLocation) VALUES (?, ?, ?, ?, ?)';
+		console.log(sql);
+		data = [email, pwdHashed, first, last, location];
+		console.log(data);
+	}
+	
+	connection.query(
+		sql, 
+		data, 
+		(error, results, fields) => {
+			if (error) {
+				return console.error(error.message);
+			}
+	
+			let string = JSON.stringify(results);
+			//let obj = JSON.parse(string);
+			res.status(200).send({ express: string });
 		}
 	);
 	connection.end();
@@ -120,9 +132,9 @@ app.post('/api/searchbyservice', (req, res) => {
 
 	let service = req.body.service;
 
-	let sql = `SELECT * FROM user WHERE service_type = '?'`;
+	let sql = 'SELECT * FROM krajesh.`Service Provider` WHERE ServiceType LIKE ?';
 	console.log(sql);
-	let data = [service];
+	let data = ['%' + service + '%'];
 	console.log(data);
 
 	connection.query(sql, data, (error, results, fields) => {
@@ -137,22 +149,26 @@ app.post('/api/searchbyservice', (req, res) => {
 	connection.end();
 });
 
-// app.post('/api/myprofile', (req, res) => {
-// 	let connection = mysql.createConnection(config);
-// 	await auth(req, res, () => {
-// 		let connection = mysql.createConnection(config);
-// 		req.body.
-// 	});
-// });
+app.post('/api/getprofile', (req, res) => {
+	let connection = mysql.createConnection(config);
 
-// app.post('/api/updateprofile', async (req, res) => {
-// 	// Auth Middleware
-// 	await auth(req, res, () => {
-// 		let connection = mysql.createConnection(config);
-// 		req.body.
-// 	});
-// });
+	let id = req.body.id;
+	let sql = "SELECT * FROM `Service Provider` WHERE Service_ProviderID = ?";
+	console.log(sql);
+	let data = [id];
+	console.log(data);
 
+	connection.query(sql, data, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+		}
+
+		let string = JSON.stringify(results);
+		let obj = JSON.parse(string);
+		res.send({ results: obj });
+	});
+	connection.end();
+});
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
 //app.listen(port, '129.97.25.211'); //for the deployed version, specify the IP address of the server
