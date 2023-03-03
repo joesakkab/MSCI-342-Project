@@ -127,7 +127,6 @@ function SignUp() {
     }
   }
 
-
   return (
     <div className={classes.root}>
       <Typography variant="h4" component="h1" className={classes.title}>
