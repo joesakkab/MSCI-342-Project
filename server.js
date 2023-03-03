@@ -51,7 +51,7 @@ app.post("/api/signup", async (req, res) => {
 	const pwdHashed = await bcrypt.hash(pwd, 10);
 
 	connection.query(
-		'SELECT * FROM krajesh.`Service Provider` WHERE Email = "?"', 
+		'SELECT * FROM krajesh.`Service Provider` WHERE Email LIKE "%?%"', 
 		[email], 
 		(error, results, fields) => {
 			if (error) {
@@ -61,37 +61,34 @@ app.post("/api/signup", async (req, res) => {
 			if (results.length > 0) {
 				res.status(403).send({ error: "User already exists!" });
 				return // User already exists
-			} else {
-				// check if service providor then add into service providor table, else, add to user table
-				let sql, data;
-				if (isServiceProvider) {
-					sql = 'INSERT INTO krajesh.`Service Provider` (Email, Password, FirstName, LastName, PrimaryLocation, Description, ServiceType) VALUES (`?`, `?`, `?`, `?`, `?`, `?`, `?`)';
-					console.log(sql);
-					data = [email, pwdHashed, first, last, location, serviceType, description];
-					console.log(data);
-				} else {
-					sql = `INSERT INTO Customer (email, password, first, last) VALUES (?, ?, ?, ?)`;
-					console.log(sql);
-					data = [email, pwdHashed, first, last];
-					console.log(data);
-				}
-				
-				connection.query(
-
-					sql, 
-					data, 
-					(error, results, fields) => {
-						if (error) {
-							return console.error(error.message);
-						}
-				
-						let string = JSON.stringify(results);
-						//let obj = JSON.parse(string);
-						res.status(200).send({ express: string });
-					}
-				);
-				connection.end();
 			}
+		}
+	);
+	// check if service providor then add into service providor table, else, add to user table
+	let sql, data;
+	if (isServiceProvider) {
+		sql = 'INSERT INTO krajesh.`Service Provider` (Email, Password, FirstName, LastName, PrimaryLocation, Description, ServiceType) VALUES (?, ?, ?, ?, ?, ?, ?)';
+		console.log(sql);
+		data = [email, pwdHashed, first, last, location, serviceType, description];
+		console.log(data);
+	} else {
+		sql = 'INSERT INTO krajesh.`Customer` (Email, Password, FirstName, LastName, PrimaryLocation) VALUES (?, ?, ?, ?, ?)';
+		console.log(sql);
+		data = [email, pwdHashed, first, last, location];
+		console.log(data);
+	}
+	
+	connection.query(
+		sql, 
+		data, 
+		(error, results, fields) => {
+			if (error) {
+				return console.error(error.message);
+			}
+	
+			let string = JSON.stringify(results);
+			//let obj = JSON.parse(string);
+			res.status(200).send({ express: string });
 		}
 	);
 	connection.end();
@@ -135,9 +132,9 @@ app.post('/api/searchbyservice', (req, res) => {
 
 	let service = req.body.service;
 
-	let sql = `SELECT * FROM user WHERE service_type = '?'`;
+	let sql = 'SELECT * FROM krajesh.`Service Provider` WHERE ServiceType LIKE ?';
 	console.log(sql);
-	let data = [service];
+	let data = ['%' + service + '%'];
 	console.log(data);
 
 	connection.query(sql, data, (error, results, fields) => {
@@ -156,7 +153,7 @@ app.post('/api/getprofile', (req, res) => {
 	let connection = mysql.createConnection(config);
 
 	let id = req.body.id;
-	let sql = "SELECT * FROM `Service Provider` WHERE Service ProviderID = '?'";
+	let sql = "SELECT * FROM `Service Provider` WHERE Service_ProviderID = ?";
 	console.log(sql);
 	let data = [id];
 	console.log(data);
