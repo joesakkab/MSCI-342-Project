@@ -137,6 +137,22 @@ app.post('/api/searchbyservice', (req, res) => {
 	connection.end();
 });
 
+// app.post('/api/myprofile', (req, res) => {
+// 	let connection = mysql.createConnection(config);
+// 	await auth(req, res, () => {
+// 		let connection = mysql.createConnection(config);
+// 		req.body.
+// 	});
+// });
+
+// app.post('/api/updateprofile', async (req, res) => {
+// 	// Auth Middleware
+// 	await auth(req, res, () => {
+// 		let connection = mysql.createConnection(config);
+// 		req.body.
+// 	});
+// });
+
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
 //app.listen(port, '129.97.25.211'); //for the deployed version, specify the IP address of the server
