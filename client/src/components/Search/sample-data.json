@@ -1,0 +1,20 @@
+[
+    {
+        "id": "1", 
+        "first": "Ammar",
+        "last": "Siddiqui", 
+        "primaryLocation": "Waterloo", 
+        "description": "Installs and repairs faucets, toilets, showers, garbage disposal, pipes, unclogs drains, and solves other plumbing needs.",
+        "rating": 4.4,
+        "serviceType": "plumber"
+    },
+    {
+        "id": "2", 
+        "first": "Joe",
+        "last": "Sakkab", 
+        "primaryLocation": "Toronto", 
+        "description": "Fixes lightbulbs, changes electric pannels and sovles any electrical issues around the house!",
+        "rating": 4.7,
+        "serviceType": "electrician"
+    }
+]
