@@ -53,9 +53,9 @@ const useStyles = makeStyles((theme) => ({
 function SignUp() {
   const classes = useStyles();
 
+  const serverURL = "";
+
   const [showAdditionalInfo, setShowAdditionalInfo] = useState(false);
-  const [passwordMatch, setPasswordMatch] = useState();
-  const [validEmail, setValidEmail] = useState();
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [fName, setFName] = useState("");
   const [LName, setLName] = useState("");
@@ -64,6 +64,33 @@ function SignUp() {
   const [confPassword, setConfPassword] = useState("");
   const [location, setLocation] = useState("");
   const [serviceType, setServiceType] = useState("");
+
+  const addSignup = (submitUser) => {
+    console.log(submitUser);
+    callApiAddSignup(submitUser).then(res => {
+      console.log("callApiAddReview returned: ", res)
+      var parsed = JSON.parse(res.express);
+      console.log("callApiAddReview parsed: ", parsed);
+    })
+  }
+
+  const callApiAddSignup= async (userObject) => {
+    const url = serverURL + "/api/signup";
+    console.log(url);
+    console.log(JSON.stringify(userObject))
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(Object)
+    });
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    console.log(" success : ", body);
+    return body;
+  }
 
   const handleCheckboxChange = (event) => {
     setShowAdditionalInfo(event.target.checked);
@@ -100,6 +127,8 @@ function SignUp() {
       }
 
       console.log(submitUser)
+      addSignup(submitUser)
+
 
     } else if (password !== confPassword) {
       alert("Passwords do not match please re-enter!")

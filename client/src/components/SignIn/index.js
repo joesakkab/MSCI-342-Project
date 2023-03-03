@@ -52,9 +52,36 @@ const useStyles = makeStyles((theme) => ({
 
 function SignIn() {
   const classes = useStyles();
-
+  const serverURL = "";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const login = (submitUser) => {
+    console.log(submitUser);
+    callApiLogin(submitUser).then(res => {
+      console.log("callApiLogin returned: ", res)
+      var parsed = JSON.parse(res.express);
+      console.log("callApiLogin parsed: ", parsed);
+    })
+  }
+
+  const callApiLogin= async (userObject) => {
+    const url = serverURL + "/api/login";
+    console.log(url);
+    console.log(JSON.stringify(userObject))
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(Object)
+    });
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    console.log(" success : ", body);
+    return body;
+  }
 
 
 
@@ -64,8 +91,7 @@ function SignIn() {
         email: email,
         password: password,
       }
-
-      console.log(submitUser)
+      login(submitUser)
 
     } else {
       alert("Please ensure that all fields are entered!")
@@ -76,10 +102,7 @@ function SignIn() {
   return (
     <div className={classes.root}>
       <Typography variant="h4" component="h1" className={classes.title}>
-        Sign Up
-      </Typography>
-      <Typography variant="body1" className={classes.description}>
-        Fill in the form below to create an account.
+        Sign In
       </Typography>
       <Paper elevation={5} className={classes.paper}>
         <form noValidate autoComplete="off">
