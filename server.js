@@ -98,7 +98,7 @@ app.post("/login", async (req, res) => {
 				return console.error(error.message);
 			}
 
-			if (results.length > 0) {
+			if (results.length == 0) {
 				res.status(403).send({ error: "User login failed (email and pwd pair don't match)" });
 				return // User already exists
 			} else {
@@ -114,7 +114,6 @@ app.post("/login", async (req, res) => {
 	);
 	connection.end();
 });
-
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
 //app.listen(port, '129.97.25.211'); //for the deployed version, specify the IP address of the server
