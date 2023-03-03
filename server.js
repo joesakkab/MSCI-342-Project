@@ -41,7 +41,12 @@ app.post("/signup", async (req, res) => {
 
 	const email = req.body.email;
 	const pwd = req.body.password;
-	const first = req.body.first;
+	const first = req.body.firstName;
+	const last = req.body.lastName;
+	const location = req.body.location;
+	const serviceType = req.body.serviceType;
+	const description = req.body.description;
+	const isServiceProvider = req.body.isServiceProvider;
 
 	const pwdHashed = await bcrypt.hash(pwd, 10);
 
@@ -57,11 +62,20 @@ app.post("/signup", async (req, res) => {
 				res.status(403).send({ error: "User already exists!" });
 				return // User already exists
 			} else {
-				let sql = `INSERT INTO user (email, password, first, last) VALUES (?, ?, ?, ?)`;
-				console.log(sql);
-				let data = [email, pwdHashed, first, last];
-				console.log(data);
-
+				// check if service providor then add into service providor table, else, add to user table
+				if (isServiceProvider) {
+					let sql = `INSERT INTO ServiceProvider (email, password, first, last, location, serviceType, description) 
+					VALUES (?, ?, ?, ?, ?, ?, ?)`;
+					console.log(sql);
+					let data = [email, pwdHashed, first, last, location, serviceType, description];
+					console.log(data);
+				} else {
+					let sql = `INSERT INTO user (email, password, first, last) VALUES (?, ?, ?, ?)`;
+					console.log(sql);
+					let data = [email, pwdHashed, first, last, location, serviceType, description];
+					console.log(data);
+				}
+				
 				connection.query(
 
 					sql, 
@@ -137,6 +151,27 @@ app.post('/api/searchbyservice', (req, res) => {
 	connection.end();
 });
 
+app.post('/api/getprofile', (req, res) => {
+	let connection = mysql.createConnection(config);
+
+	let id = req.body.id;
+
+	let sql = `SELECT * FROM ServiceProvider WHERE Service ProviderID = '?'`;
+	console.log(sql);
+	let data = [id];
+	console.log(data);
+
+	connection.query(sql, data, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+		}
+
+		let string = JSON.stringify(results);
+		let obj = JSON.parse(string);
+		res.send({ results: obj });
+	});
+	connection.end();
+});
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
 //app.listen(port, '129.97.25.211'); //for the deployed version, specify the IP address of the server

@@ -12,13 +12,14 @@ import validator from "validator";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: "100vh",
+    // height: "100vh",
     backgroundColor: "#2196f3",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
     fontFamily: "DM Sans, sans-serif",
+    padding: theme.spacing(2)
   },
   title: {
     marginBottom: theme.spacing(2),
@@ -67,6 +68,10 @@ function SignUp() {
 
   const handleCheckboxChange = (event) => {
     setShowAdditionalInfo(event.target.checked);
+    if (!event.target.value) {
+      setAdditionalInfo("");
+      setServiceType("");
+    }
   };
 
   const handleAdditionalInfoChange = (event) => {
@@ -98,7 +103,6 @@ function SignUp() {
         serviceDesc: additionalInfo,
         isServiceProvider: showAdditionalInfo
       }
-
       console.log(submitUser)
 
     } else if (password !== confPassword) {
