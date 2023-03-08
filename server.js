@@ -7,13 +7,14 @@ const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
 const { response } = require('express');
+const cors = require('cors');
 require("dotenv").config();
 
 const app = express();
 const port = process.env.PORT || 5000;
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
-
+app.use(cors());
 app.use(express.static(path.join(__dirname, "client/build")));
 
 // Auth middleware for JWT authenticated 
@@ -145,6 +146,26 @@ app.post('/api/searchbyservice', (req, res) => {
 		let string = JSON.stringify(results);
 		let obj = JSON.parse(string);
 		res.send({ results: obj });
+	});
+	connection.end();
+});
+
+app.post('/api/load', (req, res) => {
+	let connection = mysql.createConnection(config);
+
+	let sql = 'SELECT * FROM krajesh.`Service Provider`';
+	console.log(sql);
+	let data = []
+
+	connection.query(sql, data, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+		}
+
+		let string = JSON.stringify(results);
+		let obj = JSON.parse(string);
+		res.send({ results: obj });
+		console.log("Objects are ", obj)
 	});
 	connection.end();
 });
