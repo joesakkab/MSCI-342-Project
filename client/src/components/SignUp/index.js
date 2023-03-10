@@ -9,12 +9,11 @@ import {
   FormControlLabel,
 } from "@material-ui/core";
 import validator from "validator";
+import * as FIELDS from '../../constants/serviceProviderConst';
+// import * as FIELDS from '../../constants/customerConst';
 import history from '../Navigation/history';
 import * as ROUTES from '../../constants/routes';
 import { Router, Switch, Route } from "react-router-dom";
-
-
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,12 +59,10 @@ const useStyles = makeStyles((theme) => ({
 function SignUp() {
   const classes = useStyles();
 
-  const serverURL = "";
+  const serverURL = "";//"http://localhost:5000";
 
-
-
-  const [showAdditionalInfo, setShowAdditionalInfo] = useState(false);
-  const [additionalInfo, setAdditionalInfo] = useState("");
+  const [isServiceProvider, setIsServiceProvider] = useState(false);
+  const [description, setDescription] = useState("");
   const [fName, setFName] = useState("");
   const [LName, setLName] = useState("");
   const [email, setEmail] = useState("");
@@ -102,28 +99,28 @@ function SignUp() {
   }
 
   const handleCheckboxChange = (event) => {
-    setShowAdditionalInfo(event.target.checked);
+    setIsServiceProvider(event.target.checked);
     if (!event.target.value) {
-      setAdditionalInfo("");
+      setDescription("");
       setServiceType("");
     }
   };
 
-  const handleAdditionalInfoChange = (event) => {
-    setAdditionalInfo(event.target.value);
+  const handleDescrptionChange = (event) => {
+    setDescription(event.target.value);
   };
 
   const handleSubmit = () => {
     if(fName !== "" && LName !== "" && email !== "" && password !== "" && password === confPassword && location !== "") {
       let submitUser = {
-        firstName: fName,
-        lastName: LName,
-        email: email,
-        password: password,
-        location: location,
-        serviceType: serviceType,
-        serviceDesc: additionalInfo,
-        isServiceProvider: showAdditionalInfo
+        'firstName': fName,
+        'lastName': LName,
+        'email': email,
+        'password': password,
+        'location': location,
+        'description': description,
+        'serviceType': serviceType,
+        'isServiceProvider': isServiceProvider,
       }
       console.log(submitUser);
       addSignup(submitUser);
@@ -220,7 +217,7 @@ function SignUp() {
           <FormControlLabel
             control={
               <Checkbox
-                checked={showAdditionalInfo}
+                checked={isServiceProvider}
                 onChange={handleCheckboxChange}
                 name="showAdditionalInfo"
                 color="primary"
@@ -228,7 +225,7 @@ function SignUp() {
             }
             label="You are a Service Provider"
           />
-          {showAdditionalInfo && (
+          {isServiceProvider && (
             <Fragment>
               <TextField
                 label="Your Service Type"
@@ -248,8 +245,8 @@ function SignUp() {
                 margin="normal"
                 fullWidth
                 autoFocus
-                value={additionalInfo}
-                onChange={handleAdditionalInfoChange}
+                value={description}
+                onChange={handleDescrptionChange}
                 multiline
                 minRows={4}
                 inputProps={{ maxLength: 500 }}
