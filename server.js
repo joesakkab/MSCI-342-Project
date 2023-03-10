@@ -70,7 +70,7 @@ app.post("/api/signup", async (req, res) => {
 	if (isServiceProvider) {
 		sql = 'INSERT INTO krajesh.`Service Provider` (Email, Password, FirstName, LastName, PrimaryLocation, Description, ServiceType) VALUES (?, ?, ?, ?, ?, ?, ?)';
 		console.log(sql);
-		data = [email, pwdHashed, first, last, location, serviceType, description];
+		data = [email, pwdHashed, first, last, location, description, serviceType];
 		console.log(data);
 	} else {
 		sql = 'INSERT INTO krajesh.`Customer` (Email, Password, FirstName, LastName, PrimaryLocation) VALUES (?, ?, ?, ?, ?)';
