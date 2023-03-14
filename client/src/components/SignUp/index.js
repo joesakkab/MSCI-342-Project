@@ -119,8 +119,9 @@ function SignUp() {
         'serviceType': serviceType,
         'isServiceProvider': isServiceProvider,
       }
-      console.log(submitUser)
-      addSignup(submitUser)
+      console.log(submitUser);
+      addSignup(submitUser);
+      history.push(ROUTES.SEARCH);
 
     } else if (password !== confPassword) {
       alert("Passwords do not match please re-enter!")
